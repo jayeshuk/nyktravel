@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, Dimensions, FlatList} from 'react-native';
+import {View, Image, Dimensions, FlatList} from 'react-native';
 import type {DimensionsType, ImageArr} from '../types';
 
 export default function PostImage({media}: {media: ImageArr}) {
