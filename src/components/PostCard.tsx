@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Avatar, Icon} from '@rneui/themed';
 import {View, Text, StyleSheet} from 'react-native';
 import colors from '../styles/colors';
@@ -26,7 +26,9 @@ function formatDate(dateString: string) {
   return `${parseInt(day)} ${months[parseInt(month) - 1]} ${year}`;
 }
 
-function PostCard({details}: PostCardProps) { 
+function PostCard({details}: PostCardProps) {
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -39,11 +41,11 @@ function PostCard({details}: PostCardProps) {
       <View style={styles.captionContainer}>
         <View style={styles.postActionsContainer}>
           <View style={styles.postActions}>
-            <Icon type="antdesign" name="hearto" />
+            <Icon type="antdesign" name={liked ? "heart" : "hearto"} color={liked?"red":""} onPress={() => setLiked(!liked)} />
             <Icon type="fontisto" name="comment" />
             <Icon type="feather" name="send" />
           </View>
-          <Icon type="font-awesome" name="bookmark-o" size={26} />
+          <Icon type="font-awesome" name={saved ? "bookmark": "bookmark-o"} size={26} onPress={() => setSaved(!saved)} />
         </View>
         <Text style={styles.caption}>{details.attributes.post.caption}</Text>
         <Text style={styles.date}>
