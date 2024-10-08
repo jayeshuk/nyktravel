@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {View, Image, Dimensions, FlatList} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Image, Dimensions, FlatList, Button, StyleSheet} from 'react-native';
 import type {DimensionsType, ImageArr} from '../types';
+import {Icon} from '@rneui/base';
 
 export default function PostImage({media}: {media: ImageArr}) {
   const [dimensions, setDimensions] = useState<DimensionsType>({
@@ -10,6 +11,29 @@ export default function PostImage({media}: {media: ImageArr}) {
   const [dimensionsArr, setDimensionsArr] = useState<DimensionsType[]>([]);
   const [minHeight, setMinHeight] = useState<number>(2000);
   const screenWidth = Dimensions.get('window').width;
+  const imageListRef = useRef<FlatList<{id: number; uri: string}>>(null);
+
+  const swipeRight = (index: number) => {
+    if (
+      imageListRef.current?.props.data &&
+      index < imageListRef.current?.props.data?.length - 1
+    )
+      imageListRef.current?.scrollToIndex({
+        animated: true,
+        index: index + 1,
+      });
+  };
+
+  const swipeLeft = (index: number) =>{
+    if (
+      imageListRef.current?.props.data &&
+      index > 0
+    )
+    imageListRef.current?.scrollToIndex({
+      animated: true,
+      index: index - 1,
+    });
+  }
 
   useEffect(() => {
     if (media.length > 1) {
@@ -20,7 +44,9 @@ export default function PostImage({media}: {media: ImageArr}) {
           (width, height) => {
             const aspectRatio = width / height;
             const scaledHeight = screenWidth / aspectRatio;
-            if(scaledHeight < minHeight) {setMinHeight(scaledHeight);}
+            if (scaledHeight < minHeight) {
+              setMinHeight(scaledHeight);
+            }
             setDimensionsArr(dimensionsArr => [
               ...dimensionsArr,
               {width: screenWidth, height: scaledHeight},
@@ -55,6 +81,7 @@ export default function PostImage({media}: {media: ImageArr}) {
     />
   ) : (
     <FlatList
+      ref={imageListRef}
       horizontal
       data={media}
       pagingEnabled
@@ -72,11 +99,33 @@ export default function PostImage({media}: {media: ImageArr}) {
             resizeMode="contain"
             style={{
               height: minHeight,
-            width: dimensionsArr[index]?.width,
+              width: dimensionsArr[index]?.width,
             }}
           />
+          <View style={styles.navigatingView}>
+            <Icon
+              type="feather"
+              name="chevron-left"
+              onPress={() => swipeLeft(index)}
+            />
+            <Icon
+              type="feather"
+              name="chevron-right"
+              onPress={() => swipeRight(index)}
+            />
+          </View>
         </View>
       )}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  navigatingView:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '95%',
+    position: 'absolute',
+  }
+});
