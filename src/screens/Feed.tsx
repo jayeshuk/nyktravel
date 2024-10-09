@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 
 import colors from '../styles/colors';
-import PostCard from '../components/PostCard';
-// import data from '../data/posts.json';
-import data from '../data/posts_large.json';
+import {PostCard} from '../components';
 import { Post } from '../types';
+import data from '../data/posts_large.json';
 
 const PAGE_SIZE = 10;
 

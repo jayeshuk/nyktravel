@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Image, Dimensions, FlatList, Button, StyleSheet} from 'react-native';
+import {View, Image, Dimensions, FlatList, StyleSheet} from 'react-native';
 import type {DimensionsType, ImageArr} from '../types';
 import {Icon} from '@rneui/base';
 
