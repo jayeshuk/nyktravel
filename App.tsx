@@ -48,7 +48,10 @@ export default function App() {
             headerTitle:"NYK Travel"
           }}
         />
-        <Tab.Screen name="Post" component={Post} />
+        <Tab.Screen name="Post" component={Post} options={{
+            headerShown: true,
+            headerTitle:"Create New Post"
+          }} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
