@@ -7,16 +7,16 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import {Button, Icon} from '@rneui/themed';
 import * as ImagePicker from 'react-native-image-picker';
 import {ImageLibraryOptions, Asset} from 'react-native-image-picker';
 import colors from '../styles/colors';
+import { ToastMessage } from '../utilities';
 
 export default function Post() {
-  const [title, setTitle] = useState('');
-  const [caption, setCaption] = useState('');
-  const [images, setImages] = useState<Asset[]>([
+  const initialImages = [
     {
       fileName: 'sample',
       fileSize: 0,
@@ -25,8 +25,11 @@ export default function Post() {
       type: 'image/jpeg',
       uri: '',
       width: 960,
-    },
-  ]);
+    }
+  ]
+  const [title, setTitle] = useState('');
+  const [caption, setCaption] = useState('');
+  const [images, setImages] = useState<Asset[]>(initialImages);
 
   const renderImageList = ({item}: {item: Asset}) =>
     item.uri ? (
@@ -77,6 +80,33 @@ export default function Post() {
     }
   };
 
+  const validInputs = () => {
+    if(images.length<2){
+      ToastMessage("Upload atleast 1 media file");
+      return false;
+    }
+    if(title.length < 3){
+      ToastMessage("Title must be at least 3 characters");
+      return false;
+    } 
+
+    if(caption.length < 10){
+      ToastMessage("Caption must be at least 10 characters");
+      return false;
+    }
+
+    return true;
+  }
+
+  const handlePost = () => {
+    if(validInputs()){
+      Keyboard.dismiss();
+      setImages(initialImages);
+      setTitle('');
+      setCaption('');
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.mediaListContainer}>
@@ -109,7 +139,7 @@ export default function Post() {
         />
       </View>
 
-      <Button title="Post" containerStyle={styles.buttonContainer} />
+      <Button title="Post" containerStyle={styles.buttonContainer} onPress={handlePost} />
     </View>
   );
 }
@@ -155,6 +185,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlignVertical: 'top',
     borderBottomWidth: 1,
+    borderBottomColor:'grey'
   },
   captionInput: {
     marginTop: '5%',
