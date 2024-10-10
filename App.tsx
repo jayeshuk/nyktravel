@@ -45,13 +45,17 @@ export default function App() {
           component={Feed}
           options={{
             headerShown: true,
-            headerTitle:"NYK Travel"
+            headerTitle: 'NYK Travel',
           }}
         />
-        <Tab.Screen name="Post" component={Post} options={{
+        <Tab.Screen
+          name="Post"
+          component={Post}
+          options={{
             headerShown: true,
-            headerTitle:"Create New Post"
-          }} />
+            headerTitle: 'Create New Post',
+          }}
+        />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
