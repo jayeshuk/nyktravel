@@ -8,13 +8,7 @@ export default function Profile() {
   const buttonNames = ['Edit profile', 'Share profile'];
   const renderButton = (item: string, index: number) => {
     return (
-      <TouchableOpacity
-        key={index}
-        style={styles.profileButton}
-        // styl
-        // titleStyle={styles.profileButtonTitle}
-        // containerStyle={styles.profileButton}
-      >
+      <TouchableOpacity key={index} style={styles.profileButton}>
         <Text style={styles.profileButtonTitle}>{item}</Text>
       </TouchableOpacity>
     );
