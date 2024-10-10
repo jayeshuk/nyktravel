@@ -2,13 +2,31 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import colors from '../styles/colors';
 import user_data from '../data/user.json';
-import {UserInfo} from '../components/';
+import {UserInfo, ImageGrid} from '../components';
+import {Button} from '@rneui/themed';
 
 export default function Profile() {
+  const renderButton = (item: string, index: number) => {
+    return (
+      <Button
+        key={index}
+        title={item}
+        buttonStyle={styles.profileButton}
+        titleStyle={styles.profileButtonTitle}
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <UserInfo user={user_data} />
-      <Text style={styles.userBio}>{user_data.bio}</Text>
+      <View style={{padding: 10}}>
+        <UserInfo user={user_data} />
+        <Text style={styles.userBio}>{user_data.bio}</Text>
+        <View style={styles.profileButtonView}>
+          {['Edit profile', 'Share profile'].map(renderButton)}
+        </View>
+      </View>
+      <ImageGrid user={user_data} />
     </View>
   );
 }
@@ -16,8 +34,22 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     backgroundColor: colors.white,
+    overflow: 'visible',
   },
   userBio: {color: colors.black},
+  profileButtonView: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    marginVertical: 15,
+    justifyContent: 'space-around',
+  },
+  profileButton: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 50,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  profileButtonTitle: {color: colors.black},
 });

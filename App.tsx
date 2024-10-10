@@ -6,10 +6,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feed from './src/screens/Feed';
 import Post from './src/screens/Post';
 import Profile from './src/screens/Profile';
+import {Icon} from '@rneui/themed';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [username, setUsername] = React.useState('jayeshuk_2425');
   const tabIcon = (tab: string) => {
     switch (tab) {
       case 'Feed':
@@ -34,17 +36,16 @@ export default function App() {
       size: number;
     }) => <Ionicons name={tabIcon(route.name)} size={size} color={color} />,
     tabBarActiveTintColor: '#972FCA',
-    headerShown: false,
+    tabBarHideOnKeyboard: true,
   });
 
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={configureScreenOptions}>
+      <Tab.Navigator initialRouteName='Profile'  screenOptions={configureScreenOptions}>
         <Tab.Screen
           name="Feed"
           component={Feed}
           options={{
-            headerShown: true,
             headerTitle: 'NYK Travel',
           }}
         />
@@ -52,11 +53,19 @@ export default function App() {
           name="Post"
           component={Post}
           options={{
-            headerShown: true,
             headerTitle: 'Create New Post',
           }}
         />
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerTitle: username,
+            headerRight: () => (
+              <Icon type="feather" name="menu" style={{marginRight: 10}} />
+            ),
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

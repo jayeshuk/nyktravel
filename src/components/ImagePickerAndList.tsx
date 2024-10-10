@@ -1,5 +1,5 @@
 import {Icon} from '@rneui/themed';
-import React, {SetStateAction} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ type Props = {
 export default function ImagePickerAndList({images, setImages}: Props) {
   const handleImagePick = async () => {
     let options: ImageLibraryOptions = {
-      mediaType: 'photo',
+      mediaType: 'mixed',
       selectionLimit: 10,
     };
     const res = await ImagePicker.launchImageLibrary(options);
@@ -32,7 +32,7 @@ export default function ImagePickerAndList({images, setImages}: Props) {
       console.log(
         'ImagePickerResponse:',
         res.assets?.length,
-        'image/s selected',
+        'media files selected',
       );
       let temp = images;
       res.assets?.forEach((image: Asset) => {

@@ -16,7 +16,7 @@ export default function UserInfo({user}:{user: User}) {
 
       <View style={styles.connectionsView}>
         <View style={styles.connectionContainer}>
-          <Text style={styles.connectionValue}>{user.posts}</Text>
+          <Text style={styles.connectionValue}>{user.posts.length}</Text>
           <Text style={styles.connectionLabel}>posts</Text>
         </View>
 

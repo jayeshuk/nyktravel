@@ -29,12 +29,20 @@ export type DimensionsType = {
     height: number;
 }
 
+export type UserPosts = {
+  id:number;
+  src:string;
+  width:number;
+  height:number;
+  caption?:string;
+}
+
 export type User = {
   id: number;
   profile:string;
   username: string;
   name: string;
-  posts: number;
+  posts: UserPosts[];
   followers: number;
   following: number;
   bio: string;
