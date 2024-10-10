@@ -1,47 +1,94 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Text, Image, FlatList} from 'react-native';
-import {Icon} from '@rneui/base';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import {Button, Icon} from '@rneui/themed';
+import * as ImagePicker from 'react-native-image-picker';
+import {ImageLibraryOptions, Asset} from 'react-native-image-picker';
 import colors from '../styles/colors';
 
 export default function Post() {
   const [title, setTitle] = useState('');
   const [caption, setCaption] = useState('');
+  const [images, setImages] = useState<Asset[]>([
+    {
+      fileName: 'sample',
+      fileSize: 0,
+      height: 1280,
+      originalPath: '',
+      type: 'image/jpeg',
+      uri: '',
+      width: 960,
+    },
+  ]);
 
-  const imageData = [
-    {id: -1, uri: ''},
-    // {id: 1, uri: 'http://dummyimage.com/540x626.png/dddddd/000000'},
-    // {id: 2, uri: 'http://dummyimage.com/540x626.png/dddddd/000000'},
-  ];
-
-  const renderImageList = ({item}: {item: any}) =>
+  const renderImageList = ({item}: {item: Asset}) =>
     item.uri ? (
       <Image
         source={{uri: item.uri}}
-        style={{width: 200, height: 180}}
+        style={{
+          width: 200,
+          height: 180,
+          borderWidth: 1,
+          borderColor: colors.white,
+        }}
         resizeMode="cover"
       />
     ) : (
-      <View style={styles.mediaUploadView}>
-        <View style={styles.iconView}>
-          <Icon type="ionicon" name="images-outline" size={38} />
-          <Icon type="antdesign" name="plus" size={19} />
-          <Icon type="octicon" name="video" size={38} />
+      <TouchableOpacity onPress={handleImagePick}>
+        <View style={styles.mediaUploadView}>
+          <View style={styles.iconView}>
+            <Icon type="ionicon" name="images-outline" size={38} />
+            <Icon type="antdesign" name="plus" size={19} />
+            <Icon type="octicon" name="video" size={38} />
+          </View>
+          <Text>Upload Photos or Videos</Text>
         </View>
-        <Text>Upload Photos or Videos</Text>
-      </View>
+      </TouchableOpacity>
     );
+
+  const handleImagePick = async () => {
+    let options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      selectionLimit:10,
+    };
+    const res = await ImagePicker.launchImageLibrary(options);
+    if (res.didCancel) {
+      console.log('User cancelled');
+    } else if (res.errorCode) {
+      console.log('ImagePickerError: ', res.errorMessage);
+    } else {
+      console.log(
+        'ImagePickerResponse:',
+        res.assets?.length,
+        'image/s selected',
+      );
+      let temp = images;
+      res.assets?.forEach((image: Asset) => {
+        temp.push(image);
+      });
+      setImages([...temp]);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.mediaListContainer}>
         <FlatList
           horizontal
-          data={imageData}
-          keyExtractor={item => item.id.toString()}
+          data={images}
+          keyExtractor={item => item.uri ?? ''}
           contentContainerStyle={
-            imageData.length === 1 ? styles.listContainer : null
+            images.length === 1 ? styles.listContainer : null
           }
           renderItem={renderImageList}
+          showsHorizontalScrollIndicator={false}
         />
       </View>
 
@@ -61,6 +108,8 @@ export default function Post() {
           style={[styles.input, styles.captionInput]}
         />
       </View>
+
+      <Button title="Post" containerStyle={styles.buttonContainer} />
     </View>
   );
 }
@@ -72,7 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   mediaListContainer: {
-    height: '25%',
+    height: 180,
     borderWidth: 1,
     borderRadius: 15,
     borderStyle: 'dashed',
@@ -110,4 +159,5 @@ const styles = StyleSheet.create({
   captionInput: {
     marginTop: '5%',
   },
+  buttonContainer: {marginVertical: 10, borderRadius: 10},
 });
