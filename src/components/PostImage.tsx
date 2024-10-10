@@ -9,7 +9,6 @@ export default function PostImage({media}: {media: ImageArr}) {
     height: 0,
   });
   const [dimensionsArr, setDimensionsArr] = useState<DimensionsType[]>([]);
-  const [minHeight, setMinHeight] = useState<number>(2000);
   const screenWidth = Dimensions.get('window').width;
   const imageListRef = useRef<FlatList<{id: number; uri: string}>>(null);
 
@@ -24,16 +23,13 @@ export default function PostImage({media}: {media: ImageArr}) {
       });
   };
 
-  const swipeLeft = (index: number) =>{
-    if (
-      imageListRef.current?.props.data &&
-      index > 0
-    )
-    imageListRef.current?.scrollToIndex({
-      animated: true,
-      index: index - 1,
-    });
-  }
+  const swipeLeft = (index: number) => {
+    if (imageListRef.current?.props.data && index > 0)
+      imageListRef.current?.scrollToIndex({
+        animated: true,
+        index: index - 1,
+      });
+  };
 
   useEffect(() => {
     if (media.length > 1) {
@@ -44,9 +40,6 @@ export default function PostImage({media}: {media: ImageArr}) {
           (width, height) => {
             const aspectRatio = width / height;
             const scaledHeight = screenWidth / aspectRatio;
-            if (scaledHeight < minHeight) {
-              setMinHeight(scaledHeight);
-            }
             setDimensionsArr(dimensionsArr => [
               ...dimensionsArr,
               {width: screenWidth, height: scaledHeight},
@@ -89,7 +82,7 @@ export default function PostImage({media}: {media: ImageArr}) {
       renderItem={({item, index}) => (
         <View
           style={{
-            height: minHeight,
+            height: 400,
             width: dimensionsArr[index]?.width,
             justifyContent: 'center',
             alignItems: 'center',
@@ -98,8 +91,8 @@ export default function PostImage({media}: {media: ImageArr}) {
             source={item}
             resizeMode="contain"
             style={{
-              height: minHeight,
-              width: dimensionsArr[index]?.width,
+              height: '100%',
+              width: '100%',
             }}
           />
           <View style={styles.navigatingView}>
@@ -121,11 +114,11 @@ export default function PostImage({media}: {media: ImageArr}) {
 }
 
 const styles = StyleSheet.create({
-  navigatingView:{
+  navigatingView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '95%',
     position: 'absolute',
-  }
+  },
 });

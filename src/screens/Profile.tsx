@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Button} from '@rneui/themed';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import colors from '../styles/colors';
 import user_data from '../data/user.json';
 import {UserInfo, ImageGrid} from '../components';
@@ -9,12 +8,15 @@ export default function Profile() {
   const buttonNames = ['Edit profile', 'Share profile'];
   const renderButton = (item: string, index: number) => {
     return (
-      <Button
+      <TouchableOpacity
         key={index}
-        title={item}
-        buttonStyle={styles.profileButton}
-        titleStyle={styles.profileButtonTitle}
-      />
+        style={styles.profileButton}
+        // styl
+        // titleStyle={styles.profileButtonTitle}
+        // containerStyle={styles.profileButton}
+      >
+        <Text style={styles.profileButtonTitle}>{item}</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -52,5 +54,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 10,
   },
-  profileButtonTitle: {color: colors.black},
+  profileButtonTitle: {
+    color: colors.black,
+    fontWeight: '500',
+    fontSize: 15,
+  },
 });
