@@ -6,10 +6,10 @@ import {
   Keyboard,
 } from 'react-native';
 import {Button} from '@rneui/themed';
+import { Asset } from 'react-native-image-picker';
 import colors from '../styles/colors';
 import { ToastMessage } from '../utilities';
 import {ImagePickerAndList} from '../components/';
-import { Asset } from 'react-native-image-picker';
 
 export default function Post() {
   const initialImages = [
@@ -86,8 +86,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.white,
   },
-  
-  
   inputView: {
     marginTop: '5%',
   },

@@ -25,6 +25,10 @@ export default function App() {
     }
   };
 
+  const menuIcon = () => (
+    <Icon type="feather" name="menu" style={{marginRight: 10}} />
+  )
+
   const configureScreenOptions = ({route}: any) => ({
     tabBarIcon: ({
       focused,
@@ -41,7 +45,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName='Profile'  screenOptions={configureScreenOptions}>
+      <Tab.Navigator initialRouteName='Feed' screenOptions={configureScreenOptions}>
         <Tab.Screen
           name="Feed"
           component={Feed}
@@ -61,9 +65,7 @@ export default function App() {
           component={Profile}
           options={{
             headerTitle: username,
-            headerRight: () => (
-              <Icon type="feather" name="menu" style={{marginRight: 10}} />
-            ),
+            headerRight: menuIcon,
           }}
         />
       </Tab.Navigator>

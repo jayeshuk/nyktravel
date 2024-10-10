@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Button} from '@rneui/themed';
 import colors from '../styles/colors';
 import user_data from '../data/user.json';
 import {UserInfo, ImageGrid} from '../components';
-import {Button} from '@rneui/themed';
 
 export default function Profile() {
+  const buttonNames = ['Edit profile', 'Share profile'];
   const renderButton = (item: string, index: number) => {
     return (
       <Button
@@ -23,7 +24,7 @@ export default function Profile() {
         <UserInfo user={user_data} />
         <Text style={styles.userBio}>{user_data.bio}</Text>
         <View style={styles.profileButtonView}>
-          {['Edit profile', 'Share profile'].map(renderButton)}
+          {buttonNames.map(renderButton)}
         </View>
       </View>
       <ImageGrid user={user_data} />
